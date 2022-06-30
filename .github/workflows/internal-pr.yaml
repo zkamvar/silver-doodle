@@ -25,7 +25,7 @@ jobs:
           invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
       - name: "Comment on PR"
         id: comment-diff
-        if: ${{ steps.check-pr.outputs.VALID != true && steps.check-pr.outputs.MSG != "" }}
+        if: ${{ steps.check-pr.outputs.VALID != true && steps.check-pr.outputs.MSG != '' }}
         uses: carpentries/actions/comment-diff@main
         with:
           pr: ${{ github.event.number }} 
