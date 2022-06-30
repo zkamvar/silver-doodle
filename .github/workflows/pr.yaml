@@ -28,6 +28,7 @@ jobs:
     name: "Comment if workflow files have changed"
     needs: test-pr
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - name: "Record PR number"
         id: record
