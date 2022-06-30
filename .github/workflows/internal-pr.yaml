@@ -18,14 +18,12 @@ jobs:
         uses: carpentries/actions/check-valid-pr@add-invalid-hash
         with:
           pr: ${{ github.event.number }}
-          # invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
+          invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
 
       - name: "Comment on PR"
         id: comment-diff
-        if: ${{ always() && steps.check-pr.outputs.VALID != true && steps.check-pr.outputs.MSG != '' }}
+        if: ${{ always() }}
         uses: carpentries/actions/comment-diff@main
         with:
           pr: ${{ github.event.number }} 
-          body: |
-
-            ${{ steps.check-pr.outputs.MSG }}
+          body: HEY! ${{ steps.check-pr.outputs.MSG }}
