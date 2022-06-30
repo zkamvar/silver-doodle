@@ -29,4 +29,7 @@ jobs:
         uses: carpentries/actions/comment-diff@main
         with:
           pr: ${{ github.event.number }} 
-          body: ${{ steps.check-pr.outputs.MSG }}
+          body: |
+            FROM THE INTERNAL THING
+
+            ${{ steps.check-pr.outputs.MSG }}
