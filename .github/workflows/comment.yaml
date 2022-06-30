@@ -14,6 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'failure' }}
     steps:
+      - name: 'Download PR artifact'
+        id: dl
+        uses: carpentries/actions/download-workflow-artifact@main
+        with:
+          run: ${{ github.event.workflow_run.id }}
+          name: 'pr'
+
       - name: "Get PR Number"
         if: ${{ steps.dl.outputs.success == 'true' }}
         id: get-pr
