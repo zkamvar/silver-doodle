@@ -27,6 +27,5 @@ jobs:
         with:
           pr: ${{ github.event.number }} 
           body: |
-            FROM THE INTERNAL THING
 
             ${{ steps.check-pr.outputs.MSG }}
