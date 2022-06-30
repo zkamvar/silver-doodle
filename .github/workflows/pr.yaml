@@ -25,7 +25,7 @@ jobs:
         uses: carpentries/actions/check-valid-pr@add-invalid-hash
         with:
           pr: ${{ github.event.number }}
-          invalid-hash: b07b1749688311938f9adacdb017ded911629fd4
+          invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
  comment-changed-workflow:
    name: "Comment if workflow files have changed"
    needs: test-pr
