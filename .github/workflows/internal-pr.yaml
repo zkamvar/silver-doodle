@@ -17,7 +17,7 @@ jobs:
         id: check-pr
         run: |
           echo "::set-output name=VALID::true"
-          echo "::set-output name=MSG::all good"
+          echo "::set-output name=MSG::all good :)"
 
       - name: "Comment on PR"
         id: comment-diff
@@ -28,3 +28,4 @@ jobs:
           body: |
 
             EVERYTHING IS FINE. Approve the workflow!
+            Trust meeeee
