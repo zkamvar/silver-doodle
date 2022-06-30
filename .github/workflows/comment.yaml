@@ -38,16 +38,17 @@ jobs:
       - name: "Check PR"
         id: check-pr
         if: ${{ steps.dl.outputs.success == 'true' }}
-        uses: carpentries/actions/check-valid-pr@main
+        uses: carpentries/actions/check-valid-pr@add-invalid-hash
         with:
           pr: ${{ steps.get-pr.outputs.NUM }}
           sha: ${{ github.events.workflow_run.head_commit.sha }}
           invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
+
       - name: "Comment on PR"
         id: comment-diff
         uses: carpentries/actions/comment-diff@main
         with:
-          pr: ${{ steps.get-pr.outputs.NR }} 
+          pr: ${{ steps.get-pr.outputs.NUM }} 
           body: ${{ steps.check-pr.outputs.MSG }}
 
 
