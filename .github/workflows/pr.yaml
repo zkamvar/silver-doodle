@@ -23,26 +23,26 @@ jobs:
         uses: carpentries/actions/check-valid-pr@add-invalid-hash
         with:
           pr: ${{ github.event.number }}
-          invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
- comment-changed-workflow:
-   name: "Comment if workflow files have changed"
-   needs: test-pr
-   runs-on: ubuntu-latest
-   if: ${{ failure() || needs.test-pr.outputs.is_valid != 'true' }}
-   steps:
-     - name: "Record PR number"
-       id: record
-       run: |
-         echo ${{ github.event.number }} > ${{ github.workspace }}/NR # 2022-03-02: artifact name fixed to be NR
-     - name: "Upload PR number"
-       id: upload
-       uses: actions/upload-artifact@v2
-       with:
-         name: pr
-         path: ${{ github.workspace }}/NR
-     - name: "Comment on PR"
-       id: comment-diff-danger
-       uses: carpentries/actions/comment-diff@main
-       with:
-         pr: ${{ github.event.number }}
-         body: ${{ needs.test-pr.outputs.MSG }}
+        invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
+  comment-changed-workflow:
+    name: "Comment if workflow files have changed"
+    needs: test-pr
+    runs-on: ubuntu-latest
+    if: ${{ failure() || needs.test-pr.outputs.is_valid != 'true' }}
+    steps:
+      - name: "Record PR number"
+        id: record
+        run: |
+          echo ${{ github.event.number }} > ${{ github.workspace }}/NR # 2022-03-02: artifact name fixed to be NR
+      - name: "Upload PR number"
+        id: upload
+        uses: actions/upload-artifact@v2
+        with:
+          name: pr
+          path: ${{ github.workspace }}/NR
+      - name: "Comment on PR"
+        id: comment-diff-danger
+        uses: carpentries/actions/comment-diff@main
+        with:
+          pr: ${{ github.event.number }}
+          body: ${{ needs.test-pr.outputs.MSG }}
