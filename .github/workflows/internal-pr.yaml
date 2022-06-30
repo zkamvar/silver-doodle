@@ -1,12 +1,11 @@
-name: "Receive PR"
+name: "internally receive PR"
 
 # Controls when the workflow will run
 on:
-  pull_request:
+  pull_request_target:
     branches: [ "main" ]
 
   # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -23,19 +22,11 @@ jobs:
         uses: carpentries/actions/check-valid-pr@add-invalid-hash
         with:
           pr: ${{ github.event.number }}
-  save-pr-number:
-    name: "Comment if workflow files have changed"
-    needs: test-pr
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - name: "Record PR number"
-        id: record
-        run: |
-          echo ${{ github.event.number }} > ${{ github.workspace }}/NR # 2022-03-02: artifact name fixed to be NR
-      - name: "Upload PR number"
-        id: upload
-        uses: actions/upload-artifact@v2
+          invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
+      - name: "Comment on PR"
+        id: comment-diff
+        if: ${{ steps.check-pr.outputs.VALID != true && steps.check-pr.outputs.MSG != "" }}
+        uses: carpentries/actions/comment-diff@main
         with:
-          name: pr
-          path: ${{ github.workspace }}/NR
+          pr: ${{ github.event.number }} 
+          body: ${{ steps.check-pr.outputs.MSG }}
