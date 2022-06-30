@@ -24,11 +24,10 @@ jobs:
         with:
           pr: ${{ github.event.number }}
           invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
-  comment-changed-workflow:
+  save-pr-number:
     name: "Comment if workflow files have changed"
     needs: test-pr
     runs-on: ubuntu-latest
-    if: ${{ failure() || needs.test-pr.outputs.is_valid != 'true' }}
     steps:
       - name: "Record PR number"
         id: record
@@ -40,9 +39,3 @@ jobs:
         with:
           name: pr
           path: ${{ github.workspace }}/NR
-      - name: "Comment on PR"
-        id: comment-diff-danger
-        uses: carpentries/actions/comment-diff@main
-        with:
-          pr: ${{ github.event.number }}
-          body: ${{ needs.test-pr.outputs.MSG }}
