@@ -1,0 +1,50 @@
+# This is a basic workflow to help you get started with Actions
+
+name: "Receive PR"
+
+# Controls when the workflow will run
+on:
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  test-pr:
+    name: "Test if pull request is valid"
+    if: ${{ github.event.action != 'closed' }}
+    runs-on: ubuntu-latest
+    outputs:
+      is_valid: ${{ steps.check-pr.outputs.VALID }}
+      MSG: ${{ steps.check-pr.outputs.MSG }}
+    steps:
+      - name: "Check PR"
+        id: check-pr
+        uses: carpentries/actions/check-valid-pr@add-invalid-hash
+        with:
+          pr: ${{ github.event.number }}
+          invalid-hash: b07b1749688311938f9adacdb017ded911629fd4
+ comment-changed-workflow:
+   name: "Comment if workflow files have changed"
+   needs: test-pr
+   runs-on: ubuntu-latest
+   if: ${{ failure() || needs.test-pr.outputs.is_valid != 'true' }}
+   steps:
+     - name: "Record PR number"
+       id: record
+       run: |
+         echo ${{ github.event.number }} > ${{ github.workspace }}/NR # 2022-03-02: artifact name fixed to be NR
+     - name: "Upload PR number"
+       id: upload
+       uses: actions/upload-artifact@v2
+       with:
+         name: pr
+         path: ${{ github.workspace }}/NR
+     - name: "Comment on PR"
+       id: comment-diff-danger
+       uses: carpentries/actions/comment-diff@main
+       with:
+         pr: ${{ github.event.number }}
+         body: ${{ needs.test-pr.outputs.MSG }}
