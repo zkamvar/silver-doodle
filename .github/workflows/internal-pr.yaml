@@ -13,12 +13,16 @@ jobs:
       is_valid: ${{ steps.check-pr.outputs.VALID }}
       MSG: ${{ steps.check-pr.outputs.MSG }}
     steps:
+      - name: "Get invalid hash"
+        id: hash
+        run: |
+          echo "::set-output name=json::{\"carpentries/styles\" : \"e83e2c9bdeb259fcb7b12ae21da8f6eac8ff34a4\", \"zkamvar/silver-doodle\": \"c0feb39c8d87cd90aef3d2229dea96bdec2e41a8\"}"
       - name: "Check PR"
         id: check-pr
         uses: carpentries/actions/check-valid-pr@add-invalid-hash
         with:
-          pr: ${{ github.event.number }}
-          # invalid-hash: c0feb39c8d87cd90aef3d2229dea96bdec2e41a8
+          pr: 2
+          invalid-hash: ${{ fromJSON(steps.hash.outputs.json)[github.repository] }}
 
       - name: "Comment on PR"
         id: comment-diff
