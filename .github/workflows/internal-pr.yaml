@@ -16,7 +16,7 @@ jobs:
       - name: "Get invalid hash"
         id: hash
         run: |
-          echo "::set-output name=json::{\"carpentries/styles\" : \"e83e2c9bdeb259fcb7b12ae21da8f6eac8ff34a4\", \"zkamvar/silver-doodle\": \"c0feb39c8d87cd90aef3d2229dea96bdec2e41a8\"}"
+          echo "::set-output name=json::{\"carpentries/styles\" : \"e83e2c9bdeb259fcb7b12ae21da8f6eac8ff34a4\", \"zkamvar/sliver-doodle\": \"c0feb39c8d87cd90aef3d2229dea96bdec2e41a8\"}"
       - name: "Check PR"
         id: check-pr
         uses: carpentries/actions/check-valid-pr@add-invalid-hash
